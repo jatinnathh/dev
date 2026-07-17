@@ -246,7 +246,7 @@ function Card({
 }) {
     const ref = useRef<HTMLDivElement>(null);
 
-    const distance = useTransform([mouseX, mouseY, scrollSpring], ([x, y]) => {
+    const distance = useTransform([mouseX, mouseY, scrollSpring], ([x, y]: number[]) => {
         if (!ref.current || variant === "simple") return 200;
         const rect = ref.current.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
