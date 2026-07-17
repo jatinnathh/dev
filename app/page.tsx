@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, RefObject } from "react";
 import ModelViewer from "@/components/ModelViewer";
+import { CollectionSurfer } from "@/components/CollectionSurfer";
 
 /* ============================================
    Intersection Observer Hook for Fade-In
@@ -256,96 +257,8 @@ export default function Home() {
 
         {/* ──────────── PROJECTS ──────────── */}
         <Section className="section-right" id="projects">
-          <div className="card">
-            <span className="section-label">Projects</span>
-            <h2 className="section-heading">What I&apos;ve Built</h2>
-
-            <div className="project-card">
-              <h3>Employee Turnover Analytics</h3>
-              <p>
-                Performed extensive data analysis for turnover prediction at
-                Portobello Tech. Implemented K‑means clustering, addressed
-                class imbalance with SMOTE, and trained ML models. Gradient
-                Boosting Classifier achieved the best AUC score. Designed
-                customized retention programs for at‑risk employees.
-              </p>
-              <div className="project-tech">
-                <span className="tech-tag">Python</span>
-                <span className="tech-tag">Machine Learning</span>
-                <span className="tech-tag">K‑Means</span>
-                <span className="tech-tag">SMOTE</span>
-                <span className="tech-tag">Gradient Boosting</span>
-              </div>
-            </div>
-
-            <div className="project-card">
-              <h3>AAL Clothing Sales Analysis</h3>
-              <p>
-                Examined Q4 2020 sales data across Australian states and
-                customer segments. Identified key trends and provided strategic
-                recommendations for personalized marketing, regional product
-                tailoring, and e‑commerce initiatives.
-              </p>
-              <div className="project-tech">
-                <span className="tech-tag">Data Science</span>
-                <span className="tech-tag">Visualization</span>
-                <span className="tech-tag">Python</span>
-              </div>
-            </div>
-
-            <div className="project-card">
-              <h3>Vehicle Rental Management System</h3>
-              <p>
-                Designed a full system for vehicle rentals handling customer
-                registration, availability tracking, rental creation, and
-                payments. Created use case, class, sequence, activity, and
-                state machine diagrams.
-              </p>
-              <div className="project-tech">
-                <span className="tech-tag">UML</span>
-                <span className="tech-tag">System Design</span>
-                <span className="tech-tag">Requirements Analysis</span>
-              </div>
-            </div>
-
-            <div className="project-card">
-              <h3>User Authentication System</h3>
-              <p>
-                Full‑stack authentication with registration, login, logout, and
-                protected routes. Session management prevents unauthorized
-                access to profile pages after logout.
-              </p>
-              <div className="project-tech">
-                <span className="tech-tag">Node.js</span>
-                <span className="tech-tag">SQL</span>
-                <span className="tech-tag">JavaScript</span>
-              </div>
-            </div>
-
-            <div className="project-card">
-              <h3>Weather Finder</h3>
-              <p>
-                Weather application using the Weather API with search history
-                displaying previous locations alongside current results.
-              </p>
-              <div className="project-tech">
-                <span className="tech-tag">JavaScript</span>
-                <span className="tech-tag">Weather API</span>
-              </div>
-            </div>
-
-            <div className="project-card">
-              <h3>Travel Agency Page</h3>
-              <p>
-                Travel website featuring an image carousel on the homepage and
-                dedicated contact page functionality.
-              </p>
-              <div className="project-tech">
-                <span className="tech-tag">HTML</span>
-                <span className="tech-tag">CSS</span>
-                <span className="tech-tag">JavaScript</span>
-              </div>
-            </div>
+          <div className="relative w-full max-w-[620px] h-[80vh] ml-auto rounded-[1.5rem] overflow-hidden border border-white/10 bg-white/5 backdrop-blur-2xl">
+            <CollectionSurfer />
           </div>
         </Section>
 

@@ -91,10 +91,10 @@ export default function Scene() {
         gl={{ antialias: true }}
       >
         <color attach="background" args={["#000000"]} />
-        <ambientLight intensity={1.5} />
-        <directionalLight position={[10, 10, 5]} intensity={2} />
-        <directionalLight position={[-5, -5, -5]} intensity={0.5} />
-        <pointLight position={[0, 5, 0]} intensity={1} />
+        <ambientLight intensity={3} />
+        <directionalLight position={[10, 10, 5]} intensity={4} />
+        <directionalLight position={[-5, -5, -5]} intensity={1} />
+        <pointLight position={[0, 5, 0]} intensity={2} />
         <Environment preset="studio" />
         <Suspense fallback={null}>
           <Model />

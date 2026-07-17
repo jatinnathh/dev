@@ -126,10 +126,10 @@ export default function ModelViewer() {
         gl={{ antialias: true }}
       >
         <color attach="background" args={["#000000"]} />
-        <ambientLight intensity={1.2} />
-        <directionalLight position={[5, 8, 5]} intensity={2} />
-        <directionalLight position={[-3, -3, -5]} intensity={0.4} />
-        <pointLight position={[0, 3, 2]} intensity={1} color="#ffffff" />
+        <ambientLight intensity={0} />
+        <directionalLight position={[5, 8, 5]} intensity={0} />
+        <directionalLight position={[-3, -3, -5]} intensity={0} />
+        <pointLight position={[0, 3, 2]} intensity={-8} color="#ffffff" />
         <Environment preset="studio" />
         <Suspense fallback={null}>
           <Model />

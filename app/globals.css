@@ -122,7 +122,8 @@ body {
   flex-direction: column;
   gap: 1.5rem;
   text-align: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  padding-top: 20vh;
   padding-bottom: 10vh;
 }
 
@@ -152,7 +153,7 @@ body {
 }
 
 .scroll-indicator {
-  margin-top: 3rem;
+  margin-top:-2;
   font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.2);
   letter-spacing: 0.15em;
