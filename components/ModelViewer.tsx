@@ -66,7 +66,7 @@ function Model() {
       targetCamZ = THREE.MathUtils.lerp(0.6, 1.2, st);
       targetCamY = THREE.MathUtils.lerp(0.5, 0.5, st);
       lookAtY = THREE.MathUtils.lerp(0.5, 0.4, st);
-    } else if (t <= 0.30) {
+    } else if (t <= 0.45) {
       // Stage 2: Mid zoom / portrait
       const st = THREE.MathUtils.smoothstep(t, 0.25, 0.45);
       targetCamZ = THREE.MathUtils.lerp(1.2, 2.8, st);
@@ -120,17 +120,18 @@ export default function ModelViewer() {
         camera={{
           position: [0, 0.6, 0.8],
           fov: 50,
-          near: 0.001,
-          far: 10000,
+          near: 0.01,
+          far: 50,
         }}
-        gl={{ antialias: true }}
+        gl={{ antialias: true, powerPreference: "high-performance" }}
+        dpr={[1, 1.5]}
       >
         <color attach="background" args={["#000000"]} />
         <ambientLight intensity={0} />
         <directionalLight position={[5, 8, 5]} intensity={0} />
         <directionalLight position={[-3, -3, -5]} intensity={0} />
         <pointLight position={[0, 3, 2]} intensity={-8} color="#ffffff" />
-        <Environment preset="studio" />
+        <Environment preset="studio" resolution={256} />
         <Suspense fallback={null}>
           <Model />
         </Suspense>
