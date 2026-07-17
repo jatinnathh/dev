@@ -6,11 +6,13 @@ import { useGLTF, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
 function Model() {
-  const gltf = useGLTF("/dev.glb");
+  const gltf = useGLTF("/dev2.glb");
   const ref = useRef<THREE.Group>(null!);
   const { camera } = useThree();
   const fitted = useRef(false);
   const baseScale = useRef(1);
+  const currentLookAtY = useRef(0.5);
+  const basePosition = useRef(new THREE.Vector3());
 
   useEffect(() => {
     if (!gltf.scene || fitted.current) return;
@@ -29,11 +31,13 @@ function Model() {
         -center.y * scale,
         -center.z * scale
       );
+      // Store the base centered position for later offset
+      basePosition.current.copy(ref.current.position);
     }
 
-    // Start zoomed into the face
-    camera.position.set(0, 0.3, 1.8);
-    camera.lookAt(0, 0, 0);
+    // Start zoomed into the face (very close)
+    camera.position.set(0, 0.6, 0.8);
+    camera.lookAt(0, 0.5, 0);
     camera.updateProjectionMatrix();
 
     fitted.current = true;
@@ -46,21 +50,60 @@ function Model() {
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
     const t = maxScroll > 0 ? Math.min(scrollY / maxScroll, 1) : 0;
 
-    // Camera zoom out: z goes from 1.8 (face close-up) to 6 (full view)
-    const targetZ = 1.8 + t * 4.5;
-    const targetY = 0.3 * (1 - t); // settle from above-center to center
-    camera.position.z = THREE.MathUtils.lerp(camera.position.z, targetZ, 0.06);
-    camera.position.y = THREE.MathUtils.lerp(camera.position.y, targetY, 0.06);
-    camera.lookAt(0, 0, 0);
+    // ── 3-Stage Animation ──
+    // Stage 1: 0–25%   → Face close-up    (camera zooms)
+    // Stage 2: 25–45%  → Mid zoom/portrait (camera zooms, rotation completes)
+    // Stage 3: 45–100% → Model slides left (camera stays locked, size stays same)
+    let targetCamZ: number;
+    let targetCamY: number;
+    let lookAtY: number;
+    let modelOffsetX = 0;
+    let modelOffsetY = 0;
 
-    // Rotate model: full 360° + subtle continuous spin
-    const targetRotY = t * Math.PI * 2;
+    if (t <= 0.25) {
+      // Stage 1: Face close-up
+      const st = THREE.MathUtils.smoothstep(t, 0, 0.25);
+      targetCamZ = THREE.MathUtils.lerp(0.6, 1.2, st);
+      targetCamY = THREE.MathUtils.lerp(0.5, 0.5, st);
+      lookAtY = THREE.MathUtils.lerp(0.5, 0.4, st);
+    } else if (t <= 0.30) {
+      // Stage 2: Mid zoom / portrait
+      const st = THREE.MathUtils.smoothstep(t, 0.25, 0.45);
+      targetCamZ = THREE.MathUtils.lerp(1.2, 2.8, st);
+      targetCamY = THREE.MathUtils.lerp(0.5, 0.2, st);
+      lookAtY = THREE.MathUtils.lerp(0.4, 0.1, st);
+    } else {
+      // Stage 3: Slide model to the left side, keeping camera distance locked
+      const st = THREE.MathUtils.smoothstep(t, 0.45, 0.7);
+      targetCamZ = 2.8;  // same size as end of rotation
+      targetCamY = 0.2;  // locked
+      lookAtY = 0.1;     // locked
+      modelOffsetX = THREE.MathUtils.lerp(0, -1.2, st);  // slide left
+      modelOffsetY = THREE.MathUtils.lerp(0, 0.2, st);   // slightly up
+    }
+
+    // Smooth camera position (no X movement — model moves instead)
+    camera.position.z = THREE.MathUtils.lerp(camera.position.z, targetCamZ, 0.06);
+    camera.position.y = THREE.MathUtils.lerp(camera.position.y, targetCamY, 0.06);
+
+    // Smooth lookAt transition
+    currentLookAtY.current = THREE.MathUtils.lerp(currentLookAtY.current, lookAtY, 0.06);
+    camera.lookAt(0, currentLookAtY.current, 0);
+
+    // Smoothly move the model group position (for stage 4 slide)
+    const targetPosX = basePosition.current.x + modelOffsetX;
+    const targetPosY = basePosition.current.y + modelOffsetY;
+    ref.current.position.x = THREE.MathUtils.lerp(ref.current.position.x, targetPosX, 0.06);
+    ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, targetPosY, 0.06);
+
+    // Rotation: turns 90 degrees to face right (towards text) by t=0.45, then stops
+    const rotationT = THREE.MathUtils.smoothstep(t, 0.1, 0.45);
+    const targetRotY = rotationT * (Math.PI / 2);
     ref.current.rotation.y = THREE.MathUtils.lerp(
       ref.current.rotation.y,
       targetRotY,
       0.06
     );
-    ref.current.rotation.y += 0.0008; // subtle auto-spin
   });
 
   return (
@@ -75,7 +118,7 @@ export default function ModelViewer() {
     <div className="model-container">
       <Canvas
         camera={{
-          position: [0, 0.3, 1.8],
+          position: [0, 0.6, 0.8],
           fov: 50,
           near: 0.001,
           far: 10000,
@@ -96,4 +139,4 @@ export default function ModelViewer() {
   );
 }
 
-useGLTF.preload("/dev.glb");
+useGLTF.preload("/dev2.glb");

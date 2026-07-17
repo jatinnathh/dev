@@ -6,7 +6,7 @@ import { Suspense, useRef, useEffect } from "react";
 import * as THREE from "three";
 
 function Model() {
-  const { scene } = useGLTF("/dev.glb");
+  const { scene } = useGLTF("/dev2.glb");
   const groupRef = useRef<THREE.Group>(null);
   const { camera } = useThree();
   const fitted = useRef(false);
@@ -104,4 +104,4 @@ export default function Scene() {
   );
 }
 
-useGLTF.preload("/dev.glb");
+useGLTF.preload("/dev2.glb");
