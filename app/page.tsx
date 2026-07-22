@@ -131,7 +131,7 @@ export default function Home() {
               <div className="timeline-content">
                 Major in Computer Science with Artificial Intelligence
                 <br />
-                GPA: 3.8 / 4.0
+                <span className="font-medium text-purple-300">GPA: 3.8 / 4.0</span>
                 <br />
                 Coursework: Data Structures &amp; Algorithms, Software
                 Engineering, Web Programming, Hardware‑Software Interface
@@ -146,7 +146,7 @@ export default function Home() {
                 Mount Carmel School · New Delhi, India
               </div>
               <div className="timeline-content">
-                Class 12: 95% · Class 11: 95% · Class 10: 95.6%
+                <span className="font-medium text-purple-300">Class 12: 95% · Class 11: 95% · Class 10: 95.6%</span>
               </div>
             </div>
           </div>
