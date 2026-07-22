@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState, RefObject } from "react";
 import ModelViewer from "@/components/ModelViewer";
 import { CollectionSurfer } from "@/components/CollectionSurfer";
+import KineticTextLoader from "@/components/KineticTextLoader";
 
 /* ============================================
    Intersection Observer Hook for Fade-In
@@ -53,10 +54,33 @@ function Section({
    Portfolio Page
    ============================================ */
 export default function Home() {
+  const [modelLoaded, setModelLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!modelLoaded) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [modelLoaded]);
+
   return (
-    <div className="portfolio">
-      {/* 3D Model — Fixed Background Layer */}
-      <ModelViewer />
+    <>
+      {/* Loading Screen */}
+      <div 
+        className={`fixed inset-0 z-[10000] flex items-center justify-center bg-black transition-opacity duration-700 ease-in-out ${
+          modelLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
+        }`}
+      >
+        <KineticTextLoader />
+      </div>
+
+      <div className="portfolio">
+        {/* 3D Model — Fixed Background Layer */}
+        <ModelViewer onLoad={() => setModelLoaded(true)} />
 
       {/* Navigation */}
       <nav className="nav">
@@ -350,5 +374,6 @@ export default function Home() {
         </footer>
       </div>
     </div>
+    </>
   );
 }

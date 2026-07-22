@@ -5,7 +5,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
-function Model() {
+function Model({ onLoad }: { onLoad?: () => void }) {
   const gltf = useGLTF("/dev2.glb");
   const ref = useRef<THREE.Group>(null!);
   const { camera } = useThree();
@@ -41,7 +41,8 @@ function Model() {
     camera.updateProjectionMatrix();
 
     fitted.current = true;
-  }, [gltf.scene, camera]);
+    if (onLoad) onLoad();
+  }, [gltf.scene, camera, onLoad]);
 
   useFrame(() => {
     if (!ref.current || !fitted.current) return;
@@ -113,7 +114,7 @@ function Model() {
   );
 }
 
-export default function ModelViewer() {
+export default function ModelViewer({ onLoad }: { onLoad?: () => void }) {
   return (
     <div className="model-container">
       <Canvas
@@ -133,7 +134,7 @@ export default function ModelViewer() {
         <pointLight position={[0, 3, 2]} intensity={-8} color="#ffffff" />
         <Environment preset="studio" resolution={256} />
         <Suspense fallback={null}>
-          <Model />
+          <Model onLoad={onLoad} />
         </Suspense>
       </Canvas>
     </div>
