@@ -200,7 +200,7 @@ export default function Home() {
         </Section>
 
         {/* ──────────── EXPERIENCE ──────────── */}
-        <Section id="experience">
+        <Section id="experience" className="section-left" >
           <div className="card">
             <span className="section-label">Work Experience</span>
             <h2 className="section-heading">Where I&apos;ve Worked</h2>
