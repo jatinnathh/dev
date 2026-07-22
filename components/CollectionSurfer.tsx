@@ -16,7 +16,7 @@ export interface CollectionItem {
 export type CollectionSurferVariant = "magnetic" | "uplift" | "simple";
 
 // Actual project items
-const ITEMS: CollectionItem[] = [
+export const ITEMS: CollectionItem[] = [
     { 
         id: 1, 
         image: "/employee.jpeg", 

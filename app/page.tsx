@@ -2,8 +2,11 @@
 
 import { useRef, useEffect, useState, RefObject } from "react";
 import ModelViewer from "@/components/ModelViewer";
-import { CollectionSurfer } from "@/components/CollectionSurfer";
+import { CollectionSurfer, ITEMS } from "@/components/CollectionSurfer";
 import KineticTextLoader from "@/components/KineticTextLoader";
+import { CreepyButton } from "@/components/CreepyButton";
+import BubbleMenu from "@/components/BubbleMenu";
+import { ScrollDissolveReveal } from "@/components/ScrollDissolveReveal";
 
 /* ============================================
    Intersection Observer Hook for Fade-In
@@ -83,34 +86,16 @@ export default function Home() {
         <ModelViewer onLoad={() => setModelLoaded(true)} />
 
       {/* Navigation */}
-      <nav className="nav">
-        <span className="nav-name">Devansh Taneja</span>
-        <div className="nav-links">
-          <a href="#experience">Experience</a>
-          <a href="#projects">Projects</a>
-          <a
-            href="mailto:devanshtaneja1974@gmail.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Email
-          </a>
-          <a
-            href="https://linkedin.com/in/devansh-taneja"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LinkedIn
-          </a>
-          <a
-            href="https://github.com/Devansh-28"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
-          </a>
-        </div>
-      </nav>
+      <BubbleMenu
+        logo={<span className="text-xl font-bold tracking-widest text-white">DT</span>}
+        useFixedPosition={true}
+        menuBg="rgba(255, 255, 255, 0.05)"
+        menuContentColor="#fff"
+      >
+        <a href="#contact" className="hidden md:block">
+          <CreepyButton className="min-w-[9em]" coverClassName="font-medium text-[0.8125rem] tracking-[0.15em] uppercase px-4 py-2 bg-purple-600 group-hover:bg-purple-500 text-white border border-white/10">Contact</CreepyButton>
+        </a>
+      </BubbleMenu>
 
       {/* Scrollable Content Overlay */}
       <div className="content-overlay">
@@ -280,9 +265,12 @@ export default function Home() {
         </Section>
 
         {/* ──────────── PROJECTS ──────────── */}
-        <Section className="section-right" id="projects">
-          <div className="relative w-full max-w-[620px] h-[80vh] ml-auto rounded-[1.5rem] overflow-hidden border border-white/10 bg-white/5 backdrop-blur-2xl">
-            <CollectionSurfer />
+        <Section className="w-full !p-0 !block py-20" id="projects">
+          <div className="w-full md:w-[45vw] ml-auto pr-[3rem]">
+             <ScrollDissolveReveal
+               items={ITEMS}
+               className="sticky top-[10vh] h-[80vh] w-full card overflow-hidden"
+             />
           </div>
         </Section>
 

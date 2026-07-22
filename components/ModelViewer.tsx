@@ -61,21 +61,21 @@ function Model({ onLoad }: { onLoad?: () => void }) {
     let modelOffsetX = 0;
     let modelOffsetY = 0;
 
-    if (t <= 0.25) {
+    if (t <= 0.15) {
       // Stage 1: Face close-up
-      const st = THREE.MathUtils.smoothstep(t, 0, 0.25);
+      const st = THREE.MathUtils.smoothstep(t, 0, 0.15);
       targetCamZ = THREE.MathUtils.lerp(0.6, 1.2, st);
       targetCamY = THREE.MathUtils.lerp(0.5, 0.5, st);
       lookAtY = THREE.MathUtils.lerp(0.5, 0.4, st);
-    } else if (t <= 0.45) {
+    } else if (t <= 0.25) {
       // Stage 2: Mid zoom / portrait
-      const st = THREE.MathUtils.smoothstep(t, 0.25, 0.45);
+      const st = THREE.MathUtils.smoothstep(t, 0.15, 0.25);
       targetCamZ = THREE.MathUtils.lerp(1.2, 2.8, st);
       targetCamY = THREE.MathUtils.lerp(0.5, 0.2, st);
       lookAtY = THREE.MathUtils.lerp(0.4, 0.1, st);
     } else {
       // Stage 3: Slide model to the left side, keeping camera distance locked
-      const st = THREE.MathUtils.smoothstep(t, 0.45, 0.7);
+      const st = THREE.MathUtils.smoothstep(t, 0.25, 0.5);
       targetCamZ = 2.8;  // same size as end of rotation
       targetCamY = 0.2;  // locked
       lookAtY = 0.1;     // locked
@@ -97,8 +97,8 @@ function Model({ onLoad }: { onLoad?: () => void }) {
     ref.current.position.x = THREE.MathUtils.lerp(ref.current.position.x, targetPosX, 0.06);
     ref.current.position.y = THREE.MathUtils.lerp(ref.current.position.y, targetPosY, 0.06);
 
-    // Rotation: turns 90 degrees to face right (towards text) by t=0.45, then stops
-    const rotationT = THREE.MathUtils.smoothstep(t, 0.1, 0.45);
+    // Rotation: turns 90 degrees to face right (towards text) by t=0.25, then stops
+    const rotationT = THREE.MathUtils.smoothstep(t, 0.05, 0.25);
     const targetRotY = rotationT * (Math.PI / 2);
     ref.current.rotation.y = THREE.MathUtils.lerp(
       ref.current.rotation.y,
@@ -132,7 +132,9 @@ export default function ModelViewer({ onLoad }: { onLoad?: () => void }) {
         <directionalLight position={[5, 8, 5]} intensity={0} />
         <directionalLight position={[-3, -3, -5]} intensity={0} />
         <pointLight position={[0, 3, 2]} intensity={-8} color="#ffffff" />
-        <Environment preset="studio" resolution={256} />
+        <ambientLight intensity={1.5} />
+        <directionalLight position={[0, 5, 5]} intensity={2.5} />
+        <directionalLight position={[0, -5, -5]} intensity={1.0} />
         <Suspense fallback={null}>
           <Model onLoad={onLoad} />
         </Suspense>
