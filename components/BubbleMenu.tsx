@@ -184,17 +184,20 @@ export default function BubbleMenu({
 
         <div className="flex items-center gap-4 pointer-events-auto">
           {children}
-          <button
-            type="button"
-            className={`bubble toggle-bubble menu-btn ${isMenuOpen ? 'open' : ''}`}
-            onClick={handleToggle}
-            aria-label={menuAriaLabel}
-            aria-pressed={isMenuOpen}
-            style={{ background: menuBg }}
-          >
-            <span className="menu-line" style={{ background: menuContentColor }} />
-            <span className="menu-line short" style={{ background: menuContentColor }} />
-          </button>
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium tracking-widest" style={{ color: menuContentColor }}>NAVIGATE</span>
+            <button
+              type="button"
+              className={`bubble toggle-bubble menu-btn ${isMenuOpen ? 'open' : ''}`}
+              onClick={handleToggle}
+              aria-label={menuAriaLabel}
+              aria-pressed={isMenuOpen}
+              style={{ background: menuBg }}
+            >
+              <span className="menu-line" style={{ background: menuContentColor }} />
+              <span className="menu-line short" style={{ background: menuContentColor }} />
+            </button>
+          </div>
         </div>
       </nav>
       {showOverlay && (
